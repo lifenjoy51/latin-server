@@ -43,10 +43,6 @@ public class LatinApplication {
             public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
                 GoogleSheetService googleSheetService = event.getApplicationContext().getBean(GoogleSheetService.class);
                 googleSheetService.sync();
-
-                //for test.
-                User test = new User("test");
-                event.getApplicationContext().getBean(UserService.class).save(test);
             }
         });
         app.run(args);

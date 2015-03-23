@@ -17,12 +17,14 @@
 package me.lifenjoy51.latin.service;
 
 import me.lifenjoy51.latin.domain.Problem;
+import me.lifenjoy51.latin.domain.User;
 import me.lifenjoy51.latin.domain.UserWordHist;
 import me.lifenjoy51.latin.domain.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +49,10 @@ public class WordService {
         this.userRepository = userRepository;
     }
 
+    public Word save(Word word) {
+        return this.wordRepository.saveAndFlush(word);
+    }
+
     public Word getWord(String name) {
         Assert.hasLength(name, "Name must not be empty");
         return this.wordRepository.findOne(name);
@@ -69,7 +75,7 @@ public class WordService {
      */
     private List<Word> getWords(String userId) {
         //user-word history
-        List<UserWordHist> hist = userWordHistRepository.findUserWordHist(userRepository.getOne(userId));
+        List<UserWordHist> hist = userWordHistRepository.findUserWordHist(userRepository.findOne(userId));
 
         //top 1/2 words.
         List<String> topHalfWord = new ArrayList<String>();
@@ -83,4 +89,17 @@ public class WordService {
         return words;
     }
 
+    /**
+     * record problem solving history.
+     * *
+     * @param userId
+     * @param titleWord
+     * @param score
+     */
+    public void saveHist(String userId, String titleWord, Integer score) {
+        if(StringUtils.isEmpty(titleWord)) return;
+        User user = userRepository.findOne(userId);
+        Word word = wordRepository.findOne(titleWord);
+        userWordHistRepository.saveAndFlush(new UserWordHist(user, word, score));
+    }
 }

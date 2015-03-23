@@ -50,17 +50,10 @@ public class LatinController {
     @RequestMapping("/")
     @ResponseBody
     @Transactional(readOnly = true)
-    public User helloWorld() {
+    public User helloWorld() {        
         return this.userService.getUser("lifenjoy51");
     }
-
-    @RequestMapping("/words")
-    @ResponseBody
-    @Transactional(readOnly = true)
-    public Collection<Word> words() {
-        return this.wordService.getWords(userId);
-    }
-
+    
     @RequestMapping("/sync")
     @ResponseBody
     @Transactional(readOnly = true)
@@ -72,9 +65,12 @@ public class LatinController {
     @RequestMapping("/next")
     @ResponseBody
     @Transactional(readOnly = true)
-    public Problem next(@RequestParam(value = "userId") String userId) {
+    public Problem next(@RequestParam(value = "userId") String userId,
+                        @RequestParam(value = "titleWord") String titleWord,
+                        @RequestParam(value = "score") Integer score) {
+
+        wordService.saveHist(userId, titleWord, score);
         Problem p = this.wordService.nextProblem(userId);
-        System.out.println("problem : " + p);
         return p;
     }
 
@@ -83,5 +79,13 @@ public class LatinController {
     @Transactional(readOnly = true)
     public String convert(@RequestParam(value = "content") String content) {
         return LatinConverter.convert(content);
+    }
+
+    @RequestMapping("/register")
+    @ResponseBody
+    @Transactional(readOnly = true)
+    public ResponseEntity<String> register(@RequestParam(value = "userId") String userId) {
+        userService.save(userId);
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 }

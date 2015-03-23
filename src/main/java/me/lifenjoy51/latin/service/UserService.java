@@ -46,7 +46,9 @@ public class UserService {
         return this.userRepository.findOne(userId);
     }
 
-    public void save(User user) {
+    public void save(String userId) {
+        
+        User user = new User(userId);
         user = userRepository.saveAndFlush(user);
         
         //add empty hist.
