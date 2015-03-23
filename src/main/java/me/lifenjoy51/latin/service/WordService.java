@@ -34,6 +34,8 @@ public class WordService {
     private final UserWordHistRepository userWordHistRepository;
 
     private final UserRepository userRepository;
+    
+    final int CHOICE_COUNT = 4;
 
 
     @Autowired
@@ -58,17 +60,16 @@ public class WordService {
         User user = userRepository.findOne(userId);
 
         //number of choices
-        int choicesCnt = 4;
 
         //sources.
         List<Word> words = new ArrayList(this.getHalfWords(user));
         Collections.shuffle(words);
 
         //choices
-        List<Word> choices = words.subList(0, choicesCnt);
+        List<Word> choices = words.subList(0, CHOICE_COUNT);
 
         //answer
-        Word answer = choices.get(new Random().nextInt(choicesCnt));
+        Word answer = choices.get(new Random().nextInt(CHOICE_COUNT));
 
         //info        
         Long score = userWordHistRepository.getScore(user);
@@ -90,16 +91,16 @@ public class WordService {
         Set<Word> words = new HashSet<Word>();
 
         //이력
-        List<UserWordHist> userHist = userWordHistRepository.findUserWordHist(user);
+        List<UserWordHist> userWordHist = userWordHistRepository.findUserWordHist(user);
 
         //전체 단어에서 이력에 없는 부분을 채운다.
         List<Word> totalWords = wordRepository.findAll();
         for (Word w : totalWords) {
-            userHist.add(new UserWordHist(user, w, 0));
+            userWordHist.add(new UserWordHist(user, w, 0));
         }
 
         //점수 순으로 정렬한다.
-        Collections.sort(userHist, new Comparator<UserWordHist>() {
+        Collections.sort(userWordHist, new Comparator<UserWordHist>() {
             @Override
             public int compare(final UserWordHist o1, final UserWordHist o2) {
                 if (o1.getScore() > o2.getScore()) {
@@ -110,8 +111,9 @@ public class WordService {
             }
         });
 
-        System.out.println(userHist);
-        for (UserWordHist uwh : userHist.subList(0, userHist.size() / 2)) {
+        //System.out.println(userHist);
+        int endIndex = CHOICE_COUNT * 5;
+        for (UserWordHist uwh : userWordHist.subList(0, endIndex)) {
             words.add(uwh.getWord());
         }
         //this.wordRepository.findByTitleWordIn(topHalfWord);
