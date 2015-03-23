@@ -21,6 +21,7 @@ import me.lifenjoy51.latin.domain.Problem;
 import me.lifenjoy51.latin.domain.User;
 import me.lifenjoy51.latin.domain.Word;
 import me.lifenjoy51.latin.service.GoogleSheetService;
+import me.lifenjoy51.latin.service.LatinConverter;
 import me.lifenjoy51.latin.service.UserService;
 import me.lifenjoy51.latin.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
@@ -72,5 +74,12 @@ public class LatinController {
     @Transactional(readOnly = true)
     public Problem next() {
         return this.wordService.nextProblem();
+    }
+
+    @RequestMapping("/convert")
+    @ResponseBody
+    @Transactional(readOnly = true)
+    public String convert(@RequestParam(value = "content") String content) {
+        return LatinConverter.convert(content);
     }
 }

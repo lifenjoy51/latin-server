@@ -22,8 +22,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+
+import java.nio.charset.Charset;
 
 @Configuration
 @ComponentScan
@@ -40,6 +45,12 @@ public class LatinApplication {
             }
         });
         app.run(args);
+    }
+
+    @Bean
+    public HttpMessageConverter<String> responseBodyConverter() {
+        StringHttpMessageConverter converter = converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        return converter;
     }
 
 }

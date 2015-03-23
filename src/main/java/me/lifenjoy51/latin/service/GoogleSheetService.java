@@ -56,9 +56,9 @@ public class GoogleSheetService {
             CustomElementCollection c = entry.getCustomElements();
             System.out.println("시트 : "+entry.getPlainTextContent());
 
-            String titleWord = c.getValue("titleword");
-            String korean = c.getValue("korean");
-            String english = c.getValue("english");
+            String titleWord = LatinConverter.convert(c.getValue("titleword"));
+            String korean = LatinConverter.convert(c.getValue("korean"));
+            String english = LatinConverter.convert(c.getValue("english"));
 
             int unit = 0;
             try {
@@ -67,19 +67,15 @@ public class GoogleSheetService {
                 
             }
                 
-            String partOfSpeech = c.getValue("partofspeech");
-            String presentInfinitive = c.getValue("presentinfinitive");
-            String perfectActive = c.getValue("perfectactive");
-            String supine = c.getValue("supine");
-            String more = c.getValue("more");
+            String partOfSpeech = LatinConverter.convert(c.getValue("partofspeech"));
+            String desc = LatinConverter.convert(c.getValue("desc"));
+            String more = LatinConverter.convert(c.getValue("more"));
 
             //생성.
             Word w = new Word(titleWord, korean, english);
             w.setUnit(unit);
             w.setPartOfSpeech(partOfSpeech);
-            w.setPresentInfinitive(presentInfinitive);
-            w.setPerfectActive(perfectActive);
-            w.setSupine(supine);
+            w.setDesc(desc);
             w.setMore(more);
             System.out.println("생성 : "+w);
 

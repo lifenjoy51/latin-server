@@ -37,11 +37,26 @@ public class UserWordHist implements Serializable {
     @Column
     private int score;
 
+    public UserWordHist() {
+    }
+
 	public UserWordHist(User user, Word word, int score) {
 		this.user = user;
 		this.word = word;
         this.score = score;
 	}
+
+    public UserWordHist(User user, Word word, long score) {
+        this.user = user;
+        this.word = word;
+        this.score = (int) score;
+    }
+
+    public UserWordHist(String userId, String titleWord, Long score) {
+        this.user = new User(userId);
+        this.word = new Word(titleWord);
+        this.score = score.intValue();
+    }
 
     public Long getId() {
         return id;
@@ -73,5 +88,15 @@ public class UserWordHist implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "UserWordHist{" +
+                "id=" + id +
+                ", user=" + user +
+                ", word=" + word +
+                ", score=" + score +
+                '}';
     }
 }

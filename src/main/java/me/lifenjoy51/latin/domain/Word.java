@@ -19,13 +19,7 @@ public class Word implements Serializable {
 	private String partOfSpeech;    //품사.
 
 	@Column(nullable = true)
-	private String presentInfinitive;   //현재 부정형.
-
-	@Column(nullable = true)
-	private String perfectActive;   //과거능동.
-
-    @Column(nullable = true)
-    private String supine;  //?? 동명사?
+	private String desc;   //다른형태.
 
     @Column(nullable = false)
     private String korean;  //한글풀이
@@ -38,6 +32,11 @@ public class Word implements Serializable {
 
 	public Word() {
 	}
+
+    public Word(String titleWord) {
+        super();
+        this.titleWord = titleWord;
+    }
 
 	public Word(String titleWord, String korean, String english) {
 		super();
@@ -70,28 +69,12 @@ public class Word implements Serializable {
         this.partOfSpeech = partOfSpeech;
     }
 
-    public String getPresentInfinitive() {
-        return presentInfinitive;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setPresentInfinitive(String presentInfinitive) {
-        this.presentInfinitive = presentInfinitive;
-    }
-
-    public String getPerfectActive() {
-        return perfectActive;
-    }
-
-    public void setPerfectActive(String perfectActive) {
-        this.perfectActive = perfectActive;
-    }
-
-    public String getSupine() {
-        return supine;
-    }
-
-    public void setSupine(String supine) {
-        this.supine = supine;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getKorean() {
@@ -124,9 +107,7 @@ public class Word implements Serializable {
                 "titleWord='" + titleWord + '\'' +
                 ", unit=" + unit +
                 ", partOfSpeech='" + partOfSpeech + '\'' +
-                ", presentInfinitive='" + presentInfinitive + '\'' +
-                ", perfectActive='" + perfectActive + '\'' +
-                ", supine='" + supine + '\'' +
+                ", desc='" + desc + '\'' +
                 ", korean='" + korean + '\'' +
                 ", english='" + english + '\'' +
                 ", more='" + more + '\'' +
