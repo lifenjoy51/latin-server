@@ -48,8 +48,8 @@
 		</dependency>
         <dependency>
             <groupId>com.google.gdata</groupId>
-            <artifactId>gdata-java-client</artifactId>
-            <version>1.40.0.atlassian-2</version>
+            <artifactId>core</artifactId>
+            <version>1.47.1</version>
         </dependency>
         
 	</dependencies>
