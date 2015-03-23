@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -22,7 +21,7 @@ public class Word implements Serializable {
 	private String partOfSpeech;    //품사.
 
 	@Column(nullable = true)
-	private String desc;   //다른형태.
+	private String meaning;   //다른형태.
 
     @Column(nullable = false)
     private String korean;  //한글풀이
@@ -72,12 +71,12 @@ public class Word implements Serializable {
         this.partOfSpeech = partOfSpeech;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getMeaning() {
+        return meaning;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
     }
 
     public String getKorean() {
@@ -110,7 +109,7 @@ public class Word implements Serializable {
                 "titleWord='" + titleWord + '\'' +
                 ", unit=" + unit +
                 ", partOfSpeech='" + partOfSpeech + '\'' +
-                ", desc='" + desc + '\'' +
+                ", meaning='" + meaning + '\'' +
                 ", korean='" + korean + '\'' +
                 ", english='" + english + '\'' +
                 ", more='" + more + '\'' +

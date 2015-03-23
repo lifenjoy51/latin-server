@@ -80,7 +80,7 @@ public class GoogleSheetService {
             Word w = new Word(titleWord, korean, english);
             w.setUnit(unit);
             w.setPartOfSpeech(partOfSpeech);
-            w.setDesc(desc);
+            w.setMeaning(desc);
             w.setMore(more);
             System.out.println("생성 : "+w);
 
