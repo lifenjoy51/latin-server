@@ -78,6 +78,9 @@ public class UserWordHistRepositoryTest {
         for(UserWordHist uwh : userWordHistRepository.findUserWordHist(test)){
             System.out.println(uwh);
         }
+
+        System.out.println("score!!");
+        System.out.println(userWordHistRepository.getScore(test));
         
 
     }

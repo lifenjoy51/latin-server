@@ -22,6 +22,8 @@ public class GoogleSheetService {
 
     @Autowired
     WordRepository wordRepository;
+    
+    public static int TOTAL_COUNT = 1;
 
     
     public void sync()  {
@@ -50,6 +52,9 @@ public class GoogleSheetService {
         for (String s : listFeed.getEntries().get(0).getCustomElements().getTags()) {
             System.out.println(s);
         }
+
+        //total counts.
+        TOTAL_COUNT = listFeed.getEntries().size();
 
         //한줄씩 작업.
         for (ListEntry entry : listFeed.getEntries()) {

@@ -16,10 +16,7 @@
 
 package me.lifenjoy51.latin.service;
 
-import me.lifenjoy51.latin.domain.Problem;
-import me.lifenjoy51.latin.domain.User;
-import me.lifenjoy51.latin.domain.UserWordHist;
-import me.lifenjoy51.latin.domain.Word;
+import me.lifenjoy51.latin.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,23 +56,38 @@ public class WordService {
     }
 
     public Problem nextProblem(String userId) {
+        
+        //user
+        User user = userRepository.findOne(userId);
+        
+        //number of choices
         int choicesCnt = 4;
-        List<Word> words = this.getWords(userId);
+        
+        //sources.
+        List<Word> words = this.getHalfWords(user);
         Collections.shuffle(words);
+        
+        //choices
         List<Word> choices = words.subList(0, choicesCnt);
+        
+        //answer
         Word answer = choices.get(new Random().nextInt(choicesCnt));
-        return new Problem(answer, choices);
+        
+        //info
+        Info info = new Info(userWordHistRepository.getScore(user).intValue());
+        
+        return new Problem(answer, choices, info);
     }
 
     /**
      * get words by userid.
      * *
-     * @param userId
+     * @param user
      * @return
      */
-    private List<Word> getWords(String userId) {
+    private List<Word> getHalfWords(User user) {
         //user-word history
-        List<UserWordHist> hist = userWordHistRepository.findUserWordHist(userRepository.findOne(userId));
+        List<UserWordHist> hist = userWordHistRepository.findUserWordHist(user);
 
         //top 1/2 words.
         List<String> topHalfWord = new ArrayList<String>();

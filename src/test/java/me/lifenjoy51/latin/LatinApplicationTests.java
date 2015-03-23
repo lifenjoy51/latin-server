@@ -56,6 +56,9 @@ public class LatinApplicationTests {
         wordService.save(new Word("tuum","너의","your"));
         wordService.save(new Word("sine","~없이","without"));
         wordService.save(new Word("est","이다","is"));
+        
+        GoogleSheetService.TOTAL_COUNT = 8;
+                
 
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 
@@ -82,8 +85,8 @@ public class LatinApplicationTests {
         //solving problerms.
         this.mvc.perform(get("/next")
                 .param("userId", userId)
-                .param("titleWord","amābō tē")
-                .param("score","1"))
+                .param("titleWord", "amābō tē")
+                .param("score", "1"))
                 .andExpect(status().isOk());
 
         //solving problerms.
@@ -108,11 +111,15 @@ public class LatinApplicationTests {
                 .andExpect(status().isOk());
 
         //solving problerms.
-        this.mvc.perform(get("/next")
+        String result = this.mvc.perform(get("/next")
                 .param("userId", userId)
                 .param("titleWord","amābō tē")
                 .param("score","1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .toString();
+
+        System.out.println("result");
+        System.out.println(result);
         
     }
 }
