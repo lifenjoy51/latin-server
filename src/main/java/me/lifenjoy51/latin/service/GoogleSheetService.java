@@ -82,12 +82,12 @@ public class GoogleSheetService {
             w.setPartOfSpeech(partOfSpeech);
             w.setMeaning(desc);
             w.setMore(more);
-            System.out.println("생성 : "+w);
+            //System.out.println("생성 : "+w);
 
             //저장.
             Word savedWord = wordRepository.saveAndFlush(w);
-            System.out.println("저장 : "+savedWord);
-            System.out.println(wordRepository.findAll());
+            //System.out.println("저장 : "+savedWord);
+            //System.out.println(wordRepository.findAll());
         }
     }
 }
