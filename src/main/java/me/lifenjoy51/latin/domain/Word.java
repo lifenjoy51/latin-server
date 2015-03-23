@@ -1,5 +1,7 @@
 package me.lifenjoy51.latin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public class Word implements Serializable {
 
 	@Id

@@ -17,6 +17,8 @@
 package me.lifenjoy51.latin.service;
 
 import me.lifenjoy51.latin.domain.User;
+import me.lifenjoy51.latin.domain.UserWordHist;
+import me.lifenjoy51.latin.domain.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +29,30 @@ import org.springframework.util.Assert;
 public class UserService {
 
     private final UserRepository userRepository;
+    
+    private final UserWordHistRepository userWordHistRepository;
+    
+    private final WordRepository wordRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserWordHistRepository userWordHistRepository, WordRepository wordRepository) {
         this.userRepository = userRepository;
+        this.userWordHistRepository = userWordHistRepository;
+        this.wordRepository = wordRepository;
     }
 
     public User getUser(String userId) {
         Assert.notNull(userId, "Name must not be null");
         return this.userRepository.findOne(userId);
+    }
+
+    public void save(User user) {
+        user = userRepository.saveAndFlush(user);
+        
+        //add empty hist.
+        for(Word w : wordRepository.findAll()){
+            userWordHistRepository.saveAndFlush(new UserWordHist(user, w, 0));
+        }
+                
     }
 }

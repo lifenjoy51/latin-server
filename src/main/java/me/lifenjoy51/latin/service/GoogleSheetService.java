@@ -57,8 +57,8 @@ public class GoogleSheetService {
             System.out.println("시트 : "+entry.getPlainTextContent());
 
             String titleWord = LatinConverter.convert(c.getValue("titleword"));
-            String korean = LatinConverter.convert(c.getValue("korean"));
-            String english = LatinConverter.convert(c.getValue("english"));
+            String korean = c.getValue("korean");
+            String english = c.getValue("english");
 
             int unit = 0;
             try {
@@ -67,9 +67,9 @@ public class GoogleSheetService {
                 
             }
                 
-            String partOfSpeech = LatinConverter.convert(c.getValue("partofspeech"));
+            String partOfSpeech = c.getValue("partofspeech");
             String desc = LatinConverter.convert(c.getValue("desc"));
-            String more = LatinConverter.convert(c.getValue("more"));
+            String more = c.getValue("more");
 
             //생성.
             Word w = new Word(titleWord, korean, english);

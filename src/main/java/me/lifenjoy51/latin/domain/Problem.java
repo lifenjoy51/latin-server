@@ -9,6 +9,9 @@ public class Problem {
     
     private Word answer;
     private List<Word> choices;
+    
+    public Problem(){
+    }
 
     public Problem(Word answer, List<Word> choices) {
         this.answer = answer;
@@ -29,5 +32,13 @@ public class Problem {
 
     public void setChoices(List<Word> choices) {
         this.choices = choices;
+    }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "answer=" + answer +
+                ", choices=" + choices +
+                '}';
     }
 }

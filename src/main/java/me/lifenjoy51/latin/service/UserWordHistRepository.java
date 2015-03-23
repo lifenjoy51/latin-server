@@ -24,11 +24,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 interface UserWordHistRepository extends JpaRepository<UserWordHist, Long> {
-    /*@Query("select new UserWordHist(r.user.userId, r.word.titleWord, sum(r.score) as score) "
-            + "from UserWordHist r " +
-            "where r.user = ?1 " +
-            "group by r.user.userId, r.word.titleWord " +
-            "order by sum(r.score) ASC")*/
+    
     @Query("select new UserWordHist(r.user, r.word, sum(r.score)) "
             + "from UserWordHist r " +
             "where r.user = ?1 " +

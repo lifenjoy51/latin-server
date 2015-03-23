@@ -40,10 +40,10 @@ public class LatinController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private WordService wordService;
-    
+
     @Autowired
     private GoogleSheetService googleSheetService;
 
@@ -58,7 +58,7 @@ public class LatinController {
     @ResponseBody
     @Transactional(readOnly = true)
     public Collection<Word> words() {
-        return this.wordService.getWords();
+        return this.wordService.getWords(userId);
     }
 
     @RequestMapping("/sync")
@@ -72,8 +72,10 @@ public class LatinController {
     @RequestMapping("/next")
     @ResponseBody
     @Transactional(readOnly = true)
-    public Problem next() {
-        return this.wordService.nextProblem();
+    public Problem next(@RequestParam(value = "userId") String userId) {
+        Problem p = this.wordService.nextProblem(userId);
+        System.out.println("problem : " + p);
+        return p;
     }
 
     @RequestMapping("/convert")

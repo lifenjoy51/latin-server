@@ -19,10 +19,15 @@ package me.lifenjoy51.latin.service;
 import me.lifenjoy51.latin.domain.Word;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
+import java.util.List;
+
 interface WordRepository extends JpaRepository<Word, String> {
     
 /*
     @Query("select new me.lifenjoy51.data.jpa.domain.RatingCount(r.rating, count(r)) "
 			+ "from Review r where r.hotel = ?1 group by r.rating order by r.rating DESC")
 	List<UserWordHist> findRatingCounts(Sentence sentence);*/
+    
+    List<Word> findByTitleWordIn(Collection<String> titleWords);
 }

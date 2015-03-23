@@ -16,8 +16,9 @@
 
 package me.lifenjoy51.latin;
 
+import me.lifenjoy51.latin.domain.User;
 import me.lifenjoy51.latin.service.GoogleSheetService;
-import org.springframework.beans.factory.annotation.Autowired;
+import me.lifenjoy51.latin.service.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
@@ -42,6 +43,10 @@ public class LatinApplication {
             public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
                 GoogleSheetService googleSheetService = event.getApplicationContext().getBean(GoogleSheetService.class);
                 googleSheetService.sync();
+
+                //for test.
+                User test = new User("test");
+                event.getApplicationContext().getBean(UserService.class).save(test);
             }
         });
         app.run(args);
