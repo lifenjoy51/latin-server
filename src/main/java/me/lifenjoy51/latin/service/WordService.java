@@ -97,6 +97,7 @@ public class WordService {
 
         //전체에서 절반.
         List<Word> totalWords = wordRepository.findAll();
+        totalWords.removeAll(userHist.subList(userHist.size() / 2, userHist.size()));
         for (Word w : totalWords.subList(0, totalWords.size() / 2)) {
             words.add(w);
         }
