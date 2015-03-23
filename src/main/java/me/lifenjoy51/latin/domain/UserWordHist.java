@@ -99,4 +99,26 @@ public class UserWordHist implements Serializable {
                 ", score=" + score +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserWordHist that = (UserWordHist) o;
+
+        if (score != that.score) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
+        if (!word.equals(that.word)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user != null ? user.hashCode() : 0;
+        result = 31 * result + word.hashCode();
+        result = 31 * result + score;
+        return result;
+    }
 }

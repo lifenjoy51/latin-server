@@ -89,20 +89,33 @@ public class WordService {
         //단어만 추출함.
         Set<Word> words = new HashSet<Word>();
 
-        //이력에서 절반.
+        //이력
         List<UserWordHist> userHist = userWordHistRepository.findUserWordHist(user);
+
+        //전체 단어에서 이력에 없는 부분을 채운다.
+        List<Word> totalWords = wordRepository.findAll();
+        for (Word w : totalWords) {
+            userHist.add(new UserWordHist(user, w, 0));
+        }
+
+        //점수 순으로 정렬한다.
+        Collections.sort(userHist, new Comparator<UserWordHist>() {
+            @Override
+            public int compare(final UserWordHist o1, final UserWordHist o2) {
+                if (o1.getScore() > o2.getScore()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        System.out.println(userHist);
         for (UserWordHist uwh : userHist.subList(0, userHist.size() / 2)) {
             words.add(uwh.getWord());
         }
-
-        //전체에서 절반.
-        List<Word> totalWords = wordRepository.findAll();
-        totalWords.removeAll(userHist.subList(userHist.size() / 2, userHist.size()));
-        for (Word w : totalWords.subList(0, totalWords.size() / 2)) {
-            words.add(w);
-        }
         //this.wordRepository.findByTitleWordIn(topHalfWord);
-        System.out.println("words : " + words);
+        //System.out.println("words : " + words);
         return words;
     }
 
