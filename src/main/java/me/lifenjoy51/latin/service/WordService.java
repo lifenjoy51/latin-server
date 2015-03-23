@@ -100,9 +100,20 @@ public class WordService {
         List<UserWordHist> userWordHist = userWordHistRepository.findUserWordHist(user);
 
         //전체 단어에서 이력에 없는 부분을 채운다.
+        //TODO O(n^2)인데... 최적화 할 수 없을까?!
         List<Word> totalWords = wordRepository.findAll();
         for (Word w : totalWords) {
-            userWordHist.add(new UserWordHist(user, w, 0));
+            boolean flag = false;
+            for(UserWordHist uwh : userWordHist){
+                //표제어가 같은지 확인.
+                if(w.getTitleWord().equals(uwh.getWord().getTitleWord())){
+                    flag = true;
+                }
+            }
+            //없으면.
+            if(!flag){
+                userWordHist.add(new UserWordHist(user, w, 0));
+            }
         }
 
         //점수 순으로 정렬한다.
@@ -111,13 +122,16 @@ public class WordService {
             public int compare(final UserWordHist o1, final UserWordHist o2) {
                 if (o1.getScore() > o2.getScore()) {
                     return 1;
-                } else {
+                } else if (o1.getScore() < o2.getScore()) {
                     return -1;
+                } else {
+                    return 0;
                 }
             }
         });
 
-        //System.out.println(userHist);
+        //System.out.println("userWordHist");
+        //System.out.println(userWordHist.size());
         int endIndex = CHOICE_COUNT * 5;
         for (UserWordHist uwh : userWordHist.subList(0, endIndex)) {
             words.add(uwh.getWord());
