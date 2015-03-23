@@ -54,6 +54,11 @@ public class WordService {
         return this.wordRepository.findOne(name);
     }
 
+    /**
+     * 이전에 입력한 이력을 가지고 자주 틀린 문제 위주로 문제를 가져온다.* 
+     * @param userId
+     * @return
+     */
     public Problem nextProblem(String userId) {
 
         //user
@@ -61,7 +66,7 @@ public class WordService {
 
         //number of choices
 
-        //sources.
+        //sources. 오답위주 문제 가져오기.
         List<Word> words = new ArrayList(this.getHalfWords(user));
         Collections.shuffle(words);
 
@@ -80,6 +85,7 @@ public class WordService {
 
     /**
      * get words by userid.
+     * 사용자의 이력을 뒤져서 오답위주로 가져온다.*
      * *
      *
      * @param user

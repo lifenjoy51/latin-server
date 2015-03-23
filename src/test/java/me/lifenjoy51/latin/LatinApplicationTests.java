@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = LatinApplication.class)
 @WebAppConfiguration
-@ActiveProfiles("scratch")
+//@ActiveProfiles("scratch")
 // Separate profile for web tests to avoid clashing databases
 public class LatinApplicationTests {
 
