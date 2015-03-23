@@ -52,9 +52,9 @@ public class UserService {
         user = userRepository.saveAndFlush(user);
         
         //add empty hist.
-        for(Word w : wordRepository.findAll()){
+        /*for(Word w : wordRepository.findAll()){
             userWordHistRepository.saveAndFlush(new UserWordHist(user, w, 0));
-        }
+        }*/
                 
     }
 }

@@ -115,4 +115,34 @@ public class Word implements Serializable {
                 ", more='" + more + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Word word = (Word) o;
+
+        if (unit != word.unit) return false;
+        if (english != null ? !english.equals(word.english) : word.english != null) return false;
+        if (korean != null ? !korean.equals(word.korean) : word.korean != null) return false;
+        if (meaning != null ? !meaning.equals(word.meaning) : word.meaning != null) return false;
+        if (more != null ? !more.equals(word.more) : word.more != null) return false;
+        if (partOfSpeech != null ? !partOfSpeech.equals(word.partOfSpeech) : word.partOfSpeech != null) return false;
+        if (!titleWord.equals(word.titleWord)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = titleWord.hashCode();
+        result = 31 * result + unit;
+        result = 31 * result + (partOfSpeech != null ? partOfSpeech.hashCode() : 0);
+        result = 31 * result + (meaning != null ? meaning.hashCode() : 0);
+        result = 31 * result + (korean != null ? korean.hashCode() : 0);
+        result = 31 * result + (english != null ? english.hashCode() : 0);
+        result = 31 * result + (more != null ? more.hashCode() : 0);
+        return result;
+    }
 }
