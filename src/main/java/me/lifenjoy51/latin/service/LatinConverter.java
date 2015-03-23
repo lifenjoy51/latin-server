@@ -43,8 +43,4 @@ public class LatinConverter {
         return dst;
     }
     
-    public static void main(String[] args){
-        String s = LatinConverter.convert("lauda:s");
-        System.out.println(s);
-    }
 }
