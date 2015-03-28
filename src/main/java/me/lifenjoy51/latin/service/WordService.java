@@ -132,8 +132,8 @@ public class WordService {
 
         //System.out.println("userWordHist");
         //System.out.println(userWordHist.size());
-        int endIndex = CHOICE_COUNT * 5;
-        for (UserWordHist uwh : userWordHist.subList(0, endIndex)) {
+        //int endIndex = CHOICE_COUNT * 5;
+        for (UserWordHist uwh : userWordHist.subList(0, totalWords.size()/2)) {
             words.add(uwh.getWord());
         }
         //this.wordRepository.findByTitleWordIn(topHalfWord);
