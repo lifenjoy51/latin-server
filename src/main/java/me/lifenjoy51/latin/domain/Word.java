@@ -8,20 +8,20 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
+@JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class Word implements Serializable {
 
-	@Id
-	private String titleWord;   //표제어. verb의 경우 present active.
+    @Id
+    private String titleWord;   //표제어. verb의 경우 present active.
 
-	@Column(nullable = true)
-	private int unit;   //몇과인지.
+    @Column(nullable = true)
+    private int unit;   //몇과인지.
 
-	@Column(nullable = true)
-	private String partOfSpeech;    //품사.
+    @Column(nullable = true)
+    private String partOfSpeech;    //품사.
 
-	@Column(nullable = true)
-	private String meaning;   //다른형태.
+    @Column(nullable = true)
+    private String meaning;   //다른형태.
 
     @Column(nullable = false)
     private String korean;  //한글풀이
@@ -32,20 +32,23 @@ public class Word implements Serializable {
     @Column(nullable = true)
     private String more;    //연관어들.
 
-	public Word() {
-	}
+    @Column(nullable = true)
+    private String audio;    //음성.
+
+    public Word() {
+    }
 
     public Word(String titleWord) {
         super();
         this.titleWord = titleWord;
     }
 
-	public Word(String titleWord, String korean, String english) {
-		super();
-		this.titleWord = titleWord;
-		this.korean = korean;
+    public Word(String titleWord, String korean, String english) {
+        super();
+        this.titleWord = titleWord;
+        this.korean = korean;
         this.english = english;
-	}
+    }
 
     public String getTitleWord() {
         return titleWord;
@@ -103,6 +106,14 @@ public class Word implements Serializable {
         this.more = more;
     }
 
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
     @Override
     public String toString() {
         return "Word{" +
@@ -113,6 +124,7 @@ public class Word implements Serializable {
                 ", korean='" + korean + '\'' +
                 ", english='" + english + '\'' +
                 ", more='" + more + '\'' +
+                ", audio='" + audio + '\'' +
                 '}';
     }
 

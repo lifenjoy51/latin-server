@@ -75,6 +75,7 @@ public class GoogleSheetService {
             String partOfSpeech = c.getValue("partofspeech");
             String desc = LatinConverter.convert(c.getValue("desc"));
             String more = c.getValue("more");
+            String audio = c.getValue("audio");
 
             //생성.
             Word w = new Word(titleWord, korean, english);
@@ -82,12 +83,14 @@ public class GoogleSheetService {
             w.setPartOfSpeech(partOfSpeech);
             w.setMeaning(desc);
             w.setMore(more);
+            w.setAudio(audio);
             //System.out.println("생성 : "+w);
 
             //저장.
-            Word savedWord = wordRepository.saveAndFlush(w);
+            Word savedWord = wordRepository.save(w);
             //System.out.println("저장 : "+savedWord);
             //System.out.println(wordRepository.findAll());
         }
+        wordRepository.flush();
     }
 }
