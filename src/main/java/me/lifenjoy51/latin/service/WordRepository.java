@@ -30,4 +30,6 @@ interface WordRepository extends JpaRepository<Word, String> {
 	List<UserWordHist> findRatingCounts(Sentence sentence);*/
     
     List<Word> findByTitleWordIn(Collection<String> titleWords);
+
+    List<Word> findByUnit(Integer unit);
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by lifenjoy51 on 2015-03-16.
@@ -24,6 +26,8 @@ public class GoogleSheetService {
     WordRepository wordRepository;
     
     public static int TOTAL_COUNT = 1;
+
+    public static int MAX_UNIT = 1;
 
     
     public void sync()  {
@@ -55,6 +59,8 @@ public class GoogleSheetService {
 
         //total counts.
         TOTAL_COUNT = listFeed.getEntries().size();
+        
+        Set<Integer> units = new HashSet<Integer>();
 
         //한줄씩 작업.
         for (ListEntry entry : listFeed.getEntries()) {
@@ -68,6 +74,7 @@ public class GoogleSheetService {
             int unit = 0;
             try {
                 unit = Integer.parseInt(c.getValue("unit"));
+                units.add(unit);
             }catch(NumberFormatException nfe){
                 
             }
@@ -91,6 +98,7 @@ public class GoogleSheetService {
             //System.out.println("저장 : "+savedWord);
             //System.out.println(wordRepository.findAll());
         }
+        MAX_UNIT = units.size();
         wordRepository.flush();
     }
 }

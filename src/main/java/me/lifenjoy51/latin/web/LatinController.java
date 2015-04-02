@@ -67,10 +67,11 @@ public class LatinController {
     @Transactional(readOnly = true)
     public Problem next(@RequestParam(value = "userId") String userId,
                         @RequestParam(value = "titleWord") String titleWord,
-                        @RequestParam(value = "score") Integer score) {
+                        @RequestParam(value = "score") Integer score,
+                        @RequestParam(value = "unit") Integer unit) {
 
         wordService.saveHist(userId, titleWord, score);
-        Problem p = this.wordService.nextProblem(userId);
+        Problem p = this.wordService.nextProblem(userId, unit);
         return p;
     }
 
@@ -88,4 +89,13 @@ public class LatinController {
         userService.save(userId);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
+
+    @RequestMapping("/units")
+    @ResponseBody
+    @Transactional(readOnly = true)
+    public String units() {
+        return String.valueOf(googleSheetService.MAX_UNIT);
+    }
+
+    
 }

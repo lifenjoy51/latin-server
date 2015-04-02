@@ -57,9 +57,10 @@ public class WordService {
     /**
      * 이전에 입력한 이력을 가지고 자주 틀린 문제 위주로 문제를 가져온다.* 
      * @param userId
+     * @param unit
      * @return
      */
-    public Problem nextProblem(String userId) {
+    public Problem nextProblem(String userId, Integer unit) {
 
         //user
         User user = userRepository.findOne(userId);
@@ -67,7 +68,10 @@ public class WordService {
         //number of choices
 
         //sources. 오답위주 문제 가져오기.
-        List<Word> words = new ArrayList(this.getHalfWords(user));
+        List<Word> words = new ArrayList(this.getHalfWords(user, unit));
+        //TODO 개수가 너무 적다면?!
+        Assert.isTrue(words.size() > CHOICE_COUNT);
+        
         Collections.shuffle(words);
 
         //choices
@@ -89,19 +93,27 @@ public class WordService {
      * *
      *
      * @param user
+     * @param unit
      * @return
      */
-    private Collection<Word> getHalfWords(User user) {
+    private Collection<Word> getHalfWords(User user, Integer unit) {
 
         //단어만 추출함.
         Set<Word> words = new HashSet<Word>();
 
         //이력
-        List<UserWordHist> userWordHist = userWordHistRepository.findUserWordHist(user);
-
+        List<UserWordHist> userWordHist;
+        List<Word> totalWords;
+        if(unit == 0){
+            userWordHist = userWordHistRepository.findUserWordHist(user);
+            totalWords = wordRepository.findAll();
+        }else{
+            userWordHist = userWordHistRepository.findUserWordHistByUnit(user, unit);
+            totalWords = wordRepository.findByUnit(unit);
+        }
+        
         //전체 단어에서 이력에 없는 부분을 채운다.
         //TODO O(n^2)인데... 최적화 할 수 없을까?!
-        List<Word> totalWords = wordRepository.findAll();
         for (Word w : totalWords) {
             boolean flag = false;
             for(UserWordHist uwh : userWordHist){
@@ -112,7 +124,7 @@ public class WordService {
             }
             //없으면.
             if(!flag){
-                userWordHist.add(new UserWordHist(user, w, 0));
+                userWordHist.add(new UserWordHist(user, w, w.getUnit()));
             }
         }
 
@@ -144,8 +156,7 @@ public class WordService {
     /**
      * record problem solving history.
      * *
-     *
-     * @param userId
+     *  @param userId
      * @param titleWord
      * @param score
      */

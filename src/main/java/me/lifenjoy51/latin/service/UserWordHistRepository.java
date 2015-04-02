@@ -37,4 +37,10 @@ interface UserWordHistRepository extends JpaRepository<UserWordHist, Long> {
             "group by r.user ")
     Long getScore(User user);
 
+    @Query("select new UserWordHist(r.user, r.word, sum(r.score)) "
+            + "from UserWordHist r " +
+            "where r.user = ?1 " +
+            "and r.word.unit = ?2 " +
+            "group by r.user, r.word ")
+    List<UserWordHist> findUserWordHistByUnit(User user, Integer unit);
 }
