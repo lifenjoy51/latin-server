@@ -29,13 +29,10 @@ import java.util.*;
 @Transactional
 public class WordService {
 
-    private final WordRepository wordRepository;
-
-    private final UserWordHistRepository userWordHistRepository;
-
-    private final UserRepository userRepository;
-    
     final int CHOICE_COUNT = 4;
+    private final WordRepository wordRepository;
+    private final UserWordHistRepository userWordHistRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
@@ -55,7 +52,8 @@ public class WordService {
     }
 
     /**
-     * 이전에 입력한 이력을 가지고 자주 틀린 문제 위주로 문제를 가져온다.* 
+     * 이전에 입력한 이력을 가지고 자주 틀린 문제 위주로 문제를 가져온다.*
+     *
      * @param userId
      * @param unit
      * @return
@@ -71,7 +69,7 @@ public class WordService {
         List<Word> words = new ArrayList(this.getHalfWords(user, unit));
         //TODO 개수가 너무 적다면?!
         Assert.isTrue(words.size() > CHOICE_COUNT);
-        
+
         Collections.shuffle(words);
 
         //choices
@@ -104,26 +102,26 @@ public class WordService {
         //이력
         List<UserWordHist> userWordHist;
         List<Word> totalWords;
-        if(unit == 0){
+        if (unit == 0) {
             userWordHist = userWordHistRepository.findUserWordHist(user);
             totalWords = wordRepository.findAll();
-        }else{
+        } else {
             userWordHist = userWordHistRepository.findUserWordHistByUnit(user, unit);
             totalWords = wordRepository.findByUnit(unit);
         }
-        
+
         //전체 단어에서 이력에 없는 부분을 채운다.
         //TODO O(n^2)인데... 최적화 할 수 없을까?!
         for (Word w : totalWords) {
             boolean flag = false;
-            for(UserWordHist uwh : userWordHist){
+            for (UserWordHist uwh : userWordHist) {
                 //표제어가 같은지 확인.
-                if(w.getTitleWord().equals(uwh.getWord().getTitleWord())){
+                if (w.getTitleWord().equals(uwh.getWord().getTitleWord())) {
                     flag = true;
                 }
             }
             //없으면.
-            if(!flag){
+            if (!flag) {
                 userWordHist.add(new UserWordHist(user, w, w.getUnit()));
             }
         }
@@ -145,7 +143,9 @@ public class WordService {
         //System.out.println("userWordHist");
         //System.out.println(userWordHist.size());
         //int endIndex = CHOICE_COUNT * 5;
-        for (UserWordHist uwh : userWordHist.subList(0, totalWords.size()/2)) {
+        int endIndex = totalWords.size() / 2;
+        if (unit > 0) endIndex = totalWords.size();    //한 유닛을 공부할 때에는 전부 다 노출.
+        for (UserWordHist uwh : userWordHist.subList(0, endIndex)) {
             words.add(uwh.getWord());
         }
         //this.wordRepository.findByTitleWordIn(topHalfWord);
@@ -156,7 +156,8 @@ public class WordService {
     /**
      * record problem solving history.
      * *
-     *  @param userId
+     *
+     * @param userId
      * @param titleWord
      * @param score
      */
