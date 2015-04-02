@@ -19,7 +19,6 @@ package me.lifenjoy51.latin.web;
 
 import me.lifenjoy51.latin.domain.Problem;
 import me.lifenjoy51.latin.domain.User;
-import me.lifenjoy51.latin.domain.Word;
 import me.lifenjoy51.latin.service.GoogleSheetService;
 import me.lifenjoy51.latin.service.LatinConverter;
 import me.lifenjoy51.latin.service.UserService;
@@ -32,8 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Collection;
 
 @Controller
 public class LatinController {
@@ -50,10 +47,10 @@ public class LatinController {
     @RequestMapping("/")
     @ResponseBody
     @Transactional(readOnly = true)
-    public User helloWorld() {        
+    public User helloWorld() {
         return this.userService.getUser("lifenjoy51");
     }
-    
+
     @RequestMapping("/sync")
     @ResponseBody
     @Transactional(readOnly = true)
@@ -69,8 +66,9 @@ public class LatinController {
                         @RequestParam(value = "titleWord") String titleWord,
                         @RequestParam(value = "score") Integer score,
                         @RequestParam(value = "unit") Integer unit) {
-
-        wordService.saveHist(userId, titleWord, score);
+        //정답이거나 오답인 경우에 기록 저장.
+        if (score != 0) wordService.saveHist(userId, titleWord, score);
+        //문제 뽑기.
         Problem p = this.wordService.nextProblem(userId, unit);
         return p;
     }
@@ -97,5 +95,5 @@ public class LatinController {
         return String.valueOf(googleSheetService.MAX_UNIT);
     }
 
-    
+
 }
