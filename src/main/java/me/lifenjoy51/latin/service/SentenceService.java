@@ -175,6 +175,7 @@ public class SentenceService {
 
     public List<Sentence> study(Integer unit) {
         List<Sentence> totalSentences = sentenceRepository.findByUnit(unit);
+        Collections.shuffle(totalSentences);
         return totalSentences;
     }
 }

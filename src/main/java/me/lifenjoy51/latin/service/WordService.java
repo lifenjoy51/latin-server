@@ -176,6 +176,7 @@ public class WordService {
 
     public List<Word> study(Integer unit) {
         List<Word> totalWords = wordRepository.findByUnit(unit);
+        Collections.shuffle(totalWords);
         return totalWords;
     }
 }
