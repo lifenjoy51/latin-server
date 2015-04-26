@@ -169,7 +169,7 @@ public class SentenceService {
     public void saveHist(String userId, String titleSentence, Integer score) {
         if (StringUtils.isEmpty(titleSentence)) return;
         User user = userRepository.findOne(userId);
-        Sentence sentence = sentenceRepository.findOne(titleSentence);
+        Sentence sentence = sentenceRepository.findByLatin(titleSentence);
         userSentenceHistRepository.saveAndFlush(new UserSentenceHist(user, sentence, score));
     }
 
