@@ -149,7 +149,7 @@ public class WordService {
             words.add(uwh.getWord());
 
             //test.
-            System.out.println(uwh.getWord().getTitleWord());
+            //System.out.println(uwh.getWord().getTitleWord());
         }
         
         

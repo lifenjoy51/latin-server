@@ -69,11 +69,11 @@ public class LatinController {
     @ResponseBody
     @Transactional(readOnly = true)
     public ProblemSet wordsNext(@RequestParam(value = "userId") String userId,
-                        @RequestParam(value = "titleWord") String titleWord,
+                        @RequestParam(value = "latin") String latin,
                         @RequestParam(value = "score") Integer score,
                         @RequestParam(value = "unit") Integer unit) {
         //정답이거나 오답인 경우에 기록 저장.
-        wordService.saveHist(userId, titleWord, score);
+        wordService.saveHist(userId, latin, score);
         //문제 뽑기.
         ProblemSet p = this.wordService.nextProblem(userId, unit);
         return p;
@@ -92,11 +92,11 @@ public class LatinController {
     @ResponseBody
     @Transactional(readOnly = true)
     public ProblemSet sentencesNext(@RequestParam(value = "userId") String userId,
-                            @RequestParam(value = "titleWord") String titleWord,
+                            @RequestParam(value = "latin") String latin,
                             @RequestParam(value = "score") Integer score,
                             @RequestParam(value = "unit") Integer unit) {
         //정답이거나 오답인 경우에 기록 저장.
-        sentenceService.saveHist(userId, titleWord, score);
+        sentenceService.saveHist(userId, latin, score);
         //문제 뽑기.
         ProblemSet p = this.sentenceService.nextProblem(userId, unit);
         return p;

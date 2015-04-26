@@ -42,7 +42,7 @@ public class LatinApplication {
             @Override
             public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
                 GoogleSheetService googleSheetService = event.getApplicationContext().getBean(GoogleSheetService.class);
-                //TODO googleSheetService.sync();
+                googleSheetService.sync();
             }
         });
         app.run(args);
