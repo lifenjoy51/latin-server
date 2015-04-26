@@ -78,7 +78,7 @@ public class WordService {
         //answer
         Word answer = choices.get(new Random().nextInt(CHOICE_COUNT));
 
-        //info        
+        //info
         Long score = userWordHistRepository.getScore(user);
         Info info = new Info((score == null ? 0 : score.intValue()));
 
@@ -147,7 +147,13 @@ public class WordService {
         if (unit > 0) endIndex = totalWords.size();    //한 유닛을 공부할 때에는 전부 다 노출.
         for (UserWordHist uwh : userWordHist.subList(0, endIndex)) {
             words.add(uwh.getWord());
+
+            //test.
+            System.out.println(uwh.getWord().getTitleWord());
         }
+        
+        
+        
         //this.wordRepository.findByTitleWordIn(topHalfWord);
         //System.out.println("words : " + words);
         return words;
@@ -166,5 +172,10 @@ public class WordService {
         User user = userRepository.findOne(userId);
         Word word = wordRepository.findOne(titleWord);
         userWordHistRepository.saveAndFlush(new UserWordHist(user, word, score));
+    }
+
+    public List<Word> study(Integer unit) {
+        List<Word> totalWords = wordRepository.findByUnit(unit);
+        return totalWords;
     }
 }

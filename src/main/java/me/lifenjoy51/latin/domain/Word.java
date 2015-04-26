@@ -11,29 +11,23 @@ import java.io.Serializable;
 @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer"})
 public class Word implements Serializable {
 
-    @Id
-    private String titleWord;   //표제어. verb의 경우 present active.
-
     @Column(nullable = true)
     private int unit;   //몇과인지.
 
     @Column(nullable = true)
-    private String partOfSpeech;    //품사.
+    private String audio;    //음성.
 
     @Column(nullable = true)
-    private String meaning;   //다른형태.
-
-    @Column(nullable = false)
     private String korean;  //한글풀이
+
+    @Id
+    private String titleWord;   //표제어. verb의 경우 present active.
 
     @Column(nullable = false)
     private String english; //영어풀이
 
     @Column(nullable = true)
-    private String more;    //연관어들.
-
-    @Column(nullable = true)
-    private String audio;    //음성.
+    private String derivation;    //연관어들.
 
     public Word() {
     }
@@ -43,19 +37,10 @@ public class Word implements Serializable {
         this.titleWord = titleWord;
     }
 
-    public Word(String titleWord, String korean, String english) {
+    public Word(String titleWord, String english) {
         super();
         this.titleWord = titleWord;
-        this.korean = korean;
         this.english = english;
-    }
-
-    public String getTitleWord() {
-        return titleWord;
-    }
-
-    public void setTitleWord(String titleWord) {
-        this.titleWord = titleWord;
     }
 
     public int getUnit() {
@@ -66,20 +51,12 @@ public class Word implements Serializable {
         this.unit = unit;
     }
 
-    public String getPartOfSpeech() {
-        return partOfSpeech;
+    public String getAudio() {
+        return audio;
     }
 
-    public void setPartOfSpeech(String partOfSpeech) {
-        this.partOfSpeech = partOfSpeech;
-    }
-
-    public String getMeaning() {
-        return meaning;
-    }
-
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public void setAudio(String audio) {
+        this.audio = audio;
     }
 
     public String getKorean() {
@@ -90,6 +67,14 @@ public class Word implements Serializable {
         this.korean = korean;
     }
 
+    public String getTitleWord() {
+        return titleWord;
+    }
+
+    public void setTitleWord(String titleWord) {
+        this.titleWord = titleWord;
+    }
+
     public String getEnglish() {
         return english;
     }
@@ -98,33 +83,23 @@ public class Word implements Serializable {
         this.english = english;
     }
 
-    public String getMore() {
-        return more;
+    public String getDerivation() {
+        return derivation;
     }
 
-    public void setMore(String more) {
-        this.more = more;
-    }
-
-    public String getAudio() {
-        return audio;
-    }
-
-    public void setAudio(String audio) {
-        this.audio = audio;
+    public void setDerivation(String derivation) {
+        this.derivation = derivation;
     }
 
     @Override
     public String toString() {
         return "Word{" +
-                "titleWord='" + titleWord + '\'' +
-                ", unit=" + unit +
-                ", partOfSpeech='" + partOfSpeech + '\'' +
-                ", meaning='" + meaning + '\'' +
-                ", korean='" + korean + '\'' +
-                ", english='" + english + '\'' +
-                ", more='" + more + '\'' +
+                "unit=" + unit +
                 ", audio='" + audio + '\'' +
+                ", korean='" + korean + '\'' +
+                ", titleWord='" + titleWord + '\'' +
+                ", english='" + english + '\'' +
+                ", derivation='" + derivation + '\'' +
                 '}';
     }
 

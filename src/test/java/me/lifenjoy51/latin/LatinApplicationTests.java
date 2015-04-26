@@ -48,14 +48,14 @@ public class LatinApplicationTests {
     public void setUp() {
 
         //words
-        wordService.save(new Word("amābō tē","제발","please"));
-        wordService.save(new Word("discipule","남학생","male student"));
-        wordService.save(new Word("et","그리고","and"));
-        wordService.save(new Word("mē","내","my"));
-        wordService.save(new Word("bis","두번","twice"));
-        wordService.save(new Word("tuum","너의","your"));
-        wordService.save(new Word("sine","~없이","without"));
-        wordService.save(new Word("est","이다","is"));
+        wordService.save(new Word("amābō tē","please"));
+        wordService.save(new Word("discipule","male student"));
+        wordService.save(new Word("et","and"));
+        wordService.save(new Word("mē","my"));
+        wordService.save(new Word("bis","twice"));
+        wordService.save(new Word("tuum","your"));
+        wordService.save(new Word("sine","without"));
+        wordService.save(new Word("est","is"));
         
         GoogleSheetService.TOTAL_COUNT = 8;
                 

@@ -16,8 +16,6 @@
 
 package me.lifenjoy51.latin.domain;
 
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -25,42 +23,32 @@ import java.util.Set;
 @Entity
 public class Sentence implements Serializable {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Column(nullable = true)
+    private int unit;
+
+    @Id
+    private String latin;   //문장    
+
+    @Column(nullable = true)
+    private String english;   //영어해석
 
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Word> words;
 
-	@Column(nullable = false)
-	@NaturalId
-	private String latin;   //문장    
+    protected Sentence() {
+    }
 
-	@Column(nullable = true)
-	private int unit;
-
-	protected Sentence() {
-	}
-
-	public Sentence(String latin) {
+    public Sentence(String latin) {
         super();
-		this.latin = latin;
-	}
-
-    public Long getId() {
-        return id;
+        this.latin = latin;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public int getUnit() {
+        return unit;
     }
 
-    public Set<Word> getWords() {
-        return words;
-    }
-
-    public void setWords(Set<Word> words) {
-        this.words = words;
+    public void setUnit(int unit) {
+        this.unit = unit;
     }
 
     public String getLatin() {
@@ -71,11 +59,19 @@ public class Sentence implements Serializable {
         this.latin = latin;
     }
 
-    public int getUnit() {
-        return unit;
+    public String getEnglish() {
+        return english;
     }
 
-    public void setUnit(int unit) {
-        this.unit = unit;
+    public void setEnglish(String english) {
+        this.english = english;
+    }
+
+    public Set<Word> getWords() {
+        return words;
+    }
+
+    public void setWords(Set<Word> words) {
+        this.words = words;
     }
 }
