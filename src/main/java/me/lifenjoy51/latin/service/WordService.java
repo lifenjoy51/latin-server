@@ -58,7 +58,7 @@ public class WordService {
      * @param unit
      * @return
      */
-    public Problem nextProblem(String userId, Integer unit) {
+    public ProblemSet nextProblem(String userId, Integer unit) {
 
         //user
         User user = userRepository.findOne(userId);
@@ -82,7 +82,7 @@ public class WordService {
         Long score = userWordHistRepository.getScore(user);
         Info info = new Info((score == null ? 0 : score.intValue()));
 
-        return new Problem(answer, choices, info);
+        return new ProblemSet(answer, choices, info);
     }
 
     /**

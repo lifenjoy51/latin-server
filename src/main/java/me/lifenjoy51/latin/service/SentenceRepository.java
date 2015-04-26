@@ -19,12 +19,10 @@ package me.lifenjoy51.latin.service;
 import me.lifenjoy51.latin.domain.Sentence;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface SentenceRepository extends JpaRepository<Sentence, Long> {
+import java.util.List;
 
-	/*Page<User> findByHotel(Sentence sentence, Pageable pageable);
+interface SentenceRepository extends JpaRepository<Sentence, String> {
 
-	User findByHotelAndIndex(Sentence sentence, int index);
-
-	User save(User user);*/
+    List<Sentence> findByUnit(Integer unit);
 
 }

@@ -4,6 +4,7 @@ import com.google.gdata.client.spreadsheet.FeedURLFactory;
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.spreadsheet.*;
 import com.google.gdata.util.ServiceException;
+import me.lifenjoy51.latin.domain.Sentence;
 import me.lifenjoy51.latin.domain.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,12 @@ public class GoogleSheetService {
 
     public static int TOTAL_COUNT = 1;
     public static int MAX_UNIT = 1;
+
     @Autowired
     WordRepository wordRepository;
+
+    @Autowired
+    SentenceRepository sentenceRepository;
 
     SpreadsheetService service;
     URL workSheetFeedUrl;
@@ -46,7 +51,7 @@ public class GoogleSheetService {
                 worksheetMap.put(title, e);
                 System.out.println(title);
             }
-            
+
             //do sync..
             //1) word
             this.syncWords();
@@ -61,8 +66,14 @@ public class GoogleSheetService {
         }
     }
 
+    /**
+     * 단어 동기화.
+     *
+     * @throws IOException
+     * @throws ServiceException
+     */
     private void syncWords() throws IOException, ServiceException {
-        
+
         //get workd worksheet
         WorksheetEntry wordWorkSheet = worksheetMap.get("word");
         ListFeed listFeed = service.getFeed(wordWorkSheet.getListFeedUrl(), ListFeed.class);
@@ -120,7 +131,7 @@ public class GoogleSheetService {
     private void syncSentences() throws IOException, ServiceException {
 
         //get workd worksheet
-        WorksheetEntry wordWorkSheet = worksheetMap.get("word");
+        WorksheetEntry wordWorkSheet = worksheetMap.get("sentence");
         ListFeed listFeed = service.getFeed(wordWorkSheet.getListFeedUrl(), ListFeed.class);
 
         //headers.
@@ -131,42 +142,39 @@ public class GoogleSheetService {
         //total counts.
         TOTAL_COUNT = listFeed.getEntries().size();
 
-        Set<Integer> units = new HashSet<Integer>();
-
         //한줄씩 작업.
         for (ListEntry entry : listFeed.getEntries()) {
             CustomElementCollection c = entry.getCustomElements();
             System.out.println("시트 : " + entry.getPlainTextContent());
 
-            String titleWord = LatinConverter.convert(c.getValue("titleword"));
-            String korean = c.getValue("korean");
+            String latin = LatinConverter.convert(c.getValue("latin"));
             String english = c.getValue("english");
-            String derivation = LatinConverter.convert(c.getValue("derivation"));
-            String audio = c.getValue("audio");
+
+            String id1 = c.getValue("div");
+            String id2 = c.getValue("unit");
+            String id3 = c.getValue("seq");
+            String id = id1 + "_" + id2 + "_" + id3;
+
 
             int unit = 0;
             try {
                 unit = Integer.parseInt(c.getValue("unit"));
-                units.add(unit);
             } catch (NumberFormatException nfe) {
 
             }
 
             //생성.
-            Word w = new Word(titleWord, english);
-            w.setUnit(unit);
-            w.setKorean(korean);
-            w.setDerivation(derivation);
-            w.setAudio(audio);
-            //System.out.println("생성 : "+w);
+            Sentence s = new Sentence(id);
+            s.setLatin(latin);
+            s.setEnglish(english);
+            s.setUnit(unit);
 
             //저장.
-            Word savedWord = wordRepository.save(w);
+            Sentence sentence = sentenceRepository.save(s);
             //System.out.println("저장 : "+savedWord);
             //System.out.println(wordRepository.findAll());
         }
-        MAX_UNIT = units.size();
-        wordRepository.flush();
+        sentenceRepository.flush();
     }
 
 }

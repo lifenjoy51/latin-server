@@ -22,11 +22,14 @@ import java.util.Set;
 
 @Entity
 public class Sentence implements Serializable {
+    
+    @Id
+    private String id;
 
     @Column(nullable = true)
     private int unit;
 
-    @Id
+    @Column(nullable = true)
     private String latin;   //문장    
 
     @Column(nullable = true)
@@ -38,9 +41,17 @@ public class Sentence implements Serializable {
     protected Sentence() {
     }
 
-    public Sentence(String latin) {
+    public Sentence(String id) {
         super();
-        this.latin = latin;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getUnit() {
