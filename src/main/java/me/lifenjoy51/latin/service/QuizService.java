@@ -29,6 +29,7 @@ import java.util.*;
 public class QuizService {
 
     private final int CHOICE_COUNT = 4;
+    private final int SUBLIST_LENGTH = 30;
 
     private final SentenceRepository sentenceRepository;
     private final UserSentenceHistRepository userSentenceHistRepository;
@@ -109,7 +110,7 @@ public class QuizService {
         }
 
         //전체일때는 30개만 자른다.
-        if(unit == 0) quizs = quizs.subList(0, quizs.size() > 30 ? 30 : quizs.size());
+        if(unit == 0) quizs = quizs.subList(0, quizs.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizs.size());
         
         return quizs;
     }
@@ -154,7 +155,7 @@ public class QuizService {
         }
 
         //전체일때는 30개만 자른다.
-        if(unit == 0) quizs = quizs.subList(0, quizs.size() > 30 ? 30 : quizs.size());
+        if(unit == 0) quizs = quizs.subList(0, quizs.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizs.size());
 
         return quizs;
     }
@@ -176,8 +177,9 @@ public class QuizService {
 
         Collections.shuffle(quizAll);
 
-        List<Quiz> subList = quizAll.subList(0, quizAll.size() > 30 ? 30 : quizAll.size());
+        //전체일때는 30개만 자른다.
+        if(unit == 0) quizAll = quizAll.subList(0, quizAll.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizAll.size());
 
-        return subList;
+        return quizAll;
     }
 }
