@@ -108,6 +108,9 @@ public class QuizService {
 
         }
 
+        //전체일때는 30개만 자른다.
+        if(unit == 0) quizs = quizs.subList(0, quizs.size() > 30 ? 30 : quizs.size());
+        
         return quizs;
     }
 
@@ -146,9 +149,12 @@ public class QuizService {
             List<QuizChoice> quizChoices = QuizChoice.listBySentence(sentences);
 
             //문제선택지를 가지고 문제를 만든다.
-            quizs.add(new Quiz(QuizType.Word, quizChoices, new QuizChoice(s)));
+            quizs.add(new Quiz(QuizType.Sentence, quizChoices, new QuizChoice(s)));
 
         }
+
+        //전체일때는 30개만 자른다.
+        if(unit == 0) quizs = quizs.subList(0, quizs.size() > 30 ? 30 : quizs.size());
 
         return quizs;
     }
