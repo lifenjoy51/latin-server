@@ -58,7 +58,7 @@ public class SentenceService {
      * @param unit
      * @return
      */
-    public ProblemSet nextProblem(String userId, Integer unit) {
+    public Quiz nextProblem(String userId, Integer unit) {
 
         //user
         User user = userRepository.findOne(userId);
@@ -82,7 +82,7 @@ public class SentenceService {
         Long score = userSentenceHistRepository.getScore(user);
         Info info = new Info((score == null ? 0 : score.intValue()));
 
-        return new ProblemSet(answer, choices, info);
+        return new Quiz(QuizType.Sentence, QuizChoice.listBySentence(choices));
     }
 
     /**

@@ -17,7 +17,7 @@
 package me.lifenjoy51.latin.web;
 
 
-import me.lifenjoy51.latin.domain.ProblemSet;
+import me.lifenjoy51.latin.domain.Quiz;
 import me.lifenjoy51.latin.domain.Sentence;
 import me.lifenjoy51.latin.domain.User;
 import me.lifenjoy51.latin.domain.Word;
@@ -28,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -68,14 +67,14 @@ public class LatinController {
     @RequestMapping(value = "/words/next")
     @ResponseBody
     @Transactional(readOnly = true)
-    public ProblemSet wordsNext(@RequestParam(value = "userId") String userId,
+    public Quiz wordsNext(@RequestParam(value = "userId") String userId,
                         @RequestParam(value = "latin") String latin,
                         @RequestParam(value = "score") Integer score,
                         @RequestParam(value = "unit") Integer unit) {
         //정답이거나 오답인 경우에 기록 저장.
         wordService.saveHist(userId, latin, score);
         //문제 뽑기.
-        ProblemSet p = this.wordService.nextProblem(userId, unit);
+        Quiz p = this.wordService.nextProblem(userId, unit);
         return p;
     }
 
@@ -91,14 +90,14 @@ public class LatinController {
     @RequestMapping(value = "/sentences/next")
     @ResponseBody
     @Transactional(readOnly = true)
-    public ProblemSet sentencesNext(@RequestParam(value = "userId") String userId,
+    public Quiz sentencesNext(@RequestParam(value = "userId") String userId,
                             @RequestParam(value = "latin") String latin,
                             @RequestParam(value = "score") Integer score,
                             @RequestParam(value = "unit") Integer unit) {
         //정답이거나 오답인 경우에 기록 저장.
         sentenceService.saveHist(userId, latin, score);
         //문제 뽑기.
-        ProblemSet p = this.sentenceService.nextProblem(userId, unit);
+        Quiz p = this.sentenceService.nextProblem(userId, unit);
         return p;
     }
 

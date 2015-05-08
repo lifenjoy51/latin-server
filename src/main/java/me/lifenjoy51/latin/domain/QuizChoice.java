@@ -1,12 +1,13 @@
 package me.lifenjoy51.latin.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by lifenjoy51 on 2015-04-26.
  */
-public class Problem {
+public class QuizChoice {
 
     private int unit;   //몇과인지.
 
@@ -26,7 +27,7 @@ public class Problem {
      *
      * @param answer
      */
-    public Problem(Word answer) {
+    public QuizChoice(Word answer) {
         this.setUnit(answer.getUnit());
         this.setAudio(answer.getAudio());
         this.setKorean(answer.getKorean());
@@ -40,24 +41,24 @@ public class Problem {
      *
      * @param answer
      */
-    public Problem(Sentence answer) {
+    public QuizChoice(Sentence answer) {
         this.setUnit(answer.getUnit());
         this.setLatin(answer.getLatin());
         this.setEnglish(answer.getEnglish());
     }
 
-    public static List<Problem> listByWords(List<Word> choices) {
-        List<Problem> list = new ArrayList<Problem>();
+    public static List<QuizChoice> listByWords(Collection<Word> choices) {
+        List<QuizChoice> list = new ArrayList<QuizChoice>();
         for (Word w : choices) {
-            list.add(new Problem(w));
+            list.add(new QuizChoice(w));
         }
         return list;
     }
 
-    public static List<Problem> listBySentence(List<Sentence> choices) {
-        List<Problem> list = new ArrayList<Problem>();
+    public static List<QuizChoice> listBySentence(Collection<Sentence> choices) {
+        List<QuizChoice> list = new ArrayList<QuizChoice>();
         for (Sentence s : choices) {
-            list.add(new Problem(s));
+            list.add(new QuizChoice(s));
         }
         return list;
     }
@@ -108,5 +109,17 @@ public class Problem {
 
     public void setEtc(String etc) {
         this.etc = etc;
+    }
+
+    @Override
+    public String toString() {
+        return "QuizChoice{" +
+                "unit=" + unit +
+                ", audio='" + audio + '\'' +
+                ", korean='" + korean + '\'' +
+                ", latin='" + latin + '\'' +
+                ", english='" + english + '\'' +
+                ", etc='" + etc + '\'' +
+                '}';
     }
 }
