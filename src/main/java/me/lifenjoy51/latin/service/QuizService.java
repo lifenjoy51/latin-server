@@ -79,6 +79,8 @@ public class QuizService {
 
         //전체 단어를 준비.
         List<Word> totalWords = wordRepository.findByUnit(unit);
+        //챕터가 0일 때. 전부 불러온다.
+        if (unit == 0) totalWords = wordRepository.findAll();
         Collections.shuffle(totalWords);
 
         // 전체 단어에 대해서 문제를 생성한다.
@@ -102,7 +104,7 @@ public class QuizService {
             List<QuizChoice> quizChoices = QuizChoice.listByWords(words);
 
             //문제선택지를 가지고 문제를 만든다.
-            quizs.add(new Quiz(QuizType.Word, quizChoices));
+            quizs.add(new Quiz(QuizType.Word, quizChoices, new QuizChoice(w)));
 
         }
 
@@ -119,6 +121,8 @@ public class QuizService {
     public List<Quiz> getSentences(String userId, Integer unit) {
 
         List<Sentence> totalSentences = sentenceRepository.findByUnit(unit);
+        //챕터가 0일 때. 전부 불러온다.
+        if (unit == 0) totalSentences = sentenceRepository.findAll();
         Collections.shuffle(totalSentences);
 
         // 전체 단어에 대해서 문제를 생성한다.
@@ -142,7 +146,7 @@ public class QuizService {
             List<QuizChoice> quizChoices = QuizChoice.listBySentence(sentences);
 
             //문제선택지를 가지고 문제를 만든다.
-            quizs.add(new Quiz(QuizType.Word, quizChoices));
+            quizs.add(new Quiz(QuizType.Word, quizChoices, new QuizChoice(s)));
 
         }
 
@@ -166,6 +170,8 @@ public class QuizService {
 
         Collections.shuffle(quizAll);
 
-        return quizAll;
+        List<Quiz> subList = quizAll.subList(0, quizAll.size() > 30 ? 30 : quizAll.size());
+
+        return subList;
     }
 }

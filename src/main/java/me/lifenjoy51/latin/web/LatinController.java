@@ -17,7 +17,6 @@
 package me.lifenjoy51.latin.web;
 
 
-import me.lifenjoy51.latin.domain.Quiz;
 import me.lifenjoy51.latin.domain.Sentence;
 import me.lifenjoy51.latin.domain.User;
 import me.lifenjoy51.latin.domain.Word;
@@ -42,7 +41,7 @@ public class LatinController {
 
     @Autowired
     private WordService wordService;
-    
+
     @Autowired
     private SentenceService sentenceService;
 
@@ -64,20 +63,6 @@ public class LatinController {
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/words/next")
-    @ResponseBody
-    @Transactional(readOnly = true)
-    public Quiz wordsNext(@RequestParam(value = "userId") String userId,
-                        @RequestParam(value = "latin") String latin,
-                        @RequestParam(value = "score") Integer score,
-                        @RequestParam(value = "unit") Integer unit) {
-        //정답이거나 오답인 경우에 기록 저장.
-        wordService.saveHist(userId, latin, score);
-        //문제 뽑기.
-        Quiz p = this.wordService.nextProblem(userId, unit);
-        return p;
-    }
-
     @RequestMapping("/words/study")
     @ResponseBody
     @Transactional(readOnly = true)
@@ -85,20 +70,6 @@ public class LatinController {
         //단어 가져오기.
         List<Word> words = this.wordService.study(unit);
         return words;
-    }
-
-    @RequestMapping(value = "/sentences/next")
-    @ResponseBody
-    @Transactional(readOnly = true)
-    public Quiz sentencesNext(@RequestParam(value = "userId") String userId,
-                            @RequestParam(value = "latin") String latin,
-                            @RequestParam(value = "score") Integer score,
-                            @RequestParam(value = "unit") Integer unit) {
-        //정답이거나 오답인 경우에 기록 저장.
-        sentenceService.saveHist(userId, latin, score);
-        //문제 뽑기.
-        Quiz p = this.sentenceService.nextProblem(userId, unit);
-        return p;
     }
 
     @RequestMapping("/sentences/study")
@@ -109,7 +80,7 @@ public class LatinController {
         List<Sentence> words = this.sentenceService.study(unit);
         return words;
     }
-    
+
 
     @RequestMapping("/convert")
     @ResponseBody

@@ -15,8 +15,7 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(QuizType quizType, List<QuizChoice> choices) {
-        QuizChoice answer = choices.get(new Random().nextInt(choices.size()));
+    public Quiz(QuizType quizType, List<QuizChoice> choices, QuizChoice answer) {
         this.setQuizType(quizType);
         this.setAnswer(answer);
         this.setChoices(choices);

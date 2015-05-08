@@ -82,7 +82,7 @@ public class SentenceService {
         Long score = userSentenceHistRepository.getScore(user);
         Info info = new Info((score == null ? 0 : score.intValue()));
 
-        return new Quiz(QuizType.Sentence, QuizChoice.listBySentence(choices));
+        return new Quiz(QuizType.Sentence, QuizChoice.listBySentence(choices), new QuizChoice(answer));
     }
 
     /**

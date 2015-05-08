@@ -82,7 +82,7 @@ public class WordService {
         Long score = userWordHistRepository.getScore(user);
         Info info = new Info((score == null ? 0 : score.intValue()));
 
-        return new Quiz(QuizType.Word, QuizChoice.listByWords(choices));
+        return new Quiz(QuizType.Word, QuizChoice.listByWords(choices), new QuizChoice(answer));
     }
 
     /**
