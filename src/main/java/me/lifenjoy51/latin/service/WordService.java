@@ -179,4 +179,9 @@ public class WordService {
         Collections.shuffle(totalWords);
         return totalWords;
     }
+    
+    public List<String> units(){
+        List<String> units = wordRepository.findByUnitGrouped();
+        return  units;
+    }
 }

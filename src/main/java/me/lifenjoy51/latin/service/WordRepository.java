@@ -18,6 +18,7 @@ package me.lifenjoy51.latin.service;
 
 import me.lifenjoy51.latin.domain.Word;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,4 +35,7 @@ interface WordRepository extends JpaRepository<Word, String> {
     List<Word> findByUnit(Integer unit);
 
     List<Word> findByUnitBetween(Integer unitFrom, Integer unitTo);
+
+    @Query("select w.unit from Word w group by w.unit")
+    List<String> findByUnitGrouped();
 }

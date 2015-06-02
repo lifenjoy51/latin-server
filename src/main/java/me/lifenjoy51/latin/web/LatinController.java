@@ -100,8 +100,9 @@ public class LatinController {
     @RequestMapping("/units")
     @ResponseBody
     @Transactional(readOnly = true)
-    public String units() {
-        return String.valueOf(googleSheetService.MAX_UNIT);
+    public List<String> units() {
+        return wordService.units();
+        //return String.valueOf(googleSheetService.MAX_UNIT);
     }
 
 
