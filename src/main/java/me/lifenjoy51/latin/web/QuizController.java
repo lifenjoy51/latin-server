@@ -42,9 +42,12 @@ public class QuizController {
     @ResponseBody
     @Transactional(readOnly = true)
     public List<Quiz> quizWords(@RequestParam(value = "userId") String userId,
-                             @RequestParam(value = "unit") Integer unit) {
+                             @RequestParam(value = "unitFrom") Integer unitFrom,
+                             @RequestParam(value = "unitTo") Integer unitTo,
+                             @RequestParam(value = "quizSize") Integer quizSize
+    ) {
         //문제 뽑기.
-        List<Quiz> quizzes = this.quizService.getWords(userId, unit);
+        List<Quiz> quizzes = this.quizService.getWords(userId, unitFrom, unitTo, quizSize);
         return quizzes;
     }
 
@@ -52,9 +55,12 @@ public class QuizController {
     @ResponseBody
     @Transactional(readOnly = true)
     public List<Quiz> quizSentences(@RequestParam(value = "userId") String userId,
-                                 @RequestParam(value = "unit") Integer unit) {
+                                    @RequestParam(value = "unitFrom") Integer unitFrom,
+                                    @RequestParam(value = "unitTo") Integer unitTo,
+                                    @RequestParam(value = "quizSize") Integer quizSize
+                                    ) {
         //문제 뽑기.
-        List<Quiz> quizzes = this.quizService.getSentences(userId, unit);
+        List<Quiz> quizzes = this.quizService.getSentences(userId,  unitFrom, unitTo, quizSize);
         return quizzes;
     }
 
@@ -62,9 +68,11 @@ public class QuizController {
     @ResponseBody
     @Transactional(readOnly = true)
     public List<Quiz> quizAll(@RequestParam(value = "userId") String userId,
-                           @RequestParam(value = "unit") Integer unit) {
+                              @RequestParam(value = "unitFrom") Integer unitFrom,
+                              @RequestParam(value = "unitTo") Integer unitTo,
+                              @RequestParam(value = "quizSize") Integer quizSize) {
         //문제 뽑기.
-        List<Quiz> quizzes = this.quizService.getAll(userId, unit);
+        List<Quiz> quizzes = this.quizService.getAll(userId,  unitFrom, unitTo, quizSize);
         return quizzes;
     }
 

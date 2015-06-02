@@ -38,7 +38,7 @@ public class QuizServiceTest {
 
     @Test
     public void testGetWords() throws Exception {
-        List<Quiz> q = quizService.getWords("lifenjoy51",1);
+        List<Quiz> q = quizService.getWords("lifenjoy51",1, 1, 10);
         System.out.println(q);
 
         Set<QuizChoice> quizChoices = new HashSet<QuizChoice>();
@@ -54,7 +54,7 @@ public class QuizServiceTest {
 
     @Test
     public void testGetSentences() throws Exception {
-        List<Quiz> q = quizService.getSentences("lifenjoy51",1);
+        List<Quiz> q = quizService.getSentences("lifenjoy51",1, 1, 10);
         System.out.println(q);
 
         Set<QuizChoice> quizChoices = new HashSet<QuizChoice>();
@@ -71,7 +71,7 @@ public class QuizServiceTest {
 
     @Test
     public void testGetAll() throws Exception {
-        List<Quiz> q = quizService.getAll("lifenjoy51",0);
+        List<Quiz> q = quizService.getAll("lifenjoy51",0, 0, 10);
         System.out.println(q);
 
         Set<QuizChoice> quizChoices = new HashSet<QuizChoice>();

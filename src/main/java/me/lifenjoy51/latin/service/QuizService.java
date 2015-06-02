@@ -29,7 +29,6 @@ import java.util.*;
 public class QuizService {
 
     private final int CHOICE_COUNT = 4;
-    private final int SUBLIST_LENGTH = 30;
 
     private final SentenceRepository sentenceRepository;
     private final UserSentenceHistRepository userSentenceHistRepository;
@@ -73,15 +72,17 @@ public class QuizService {
      * 해당 유닛의 모든 단어로 문제를 만든다.*
      *
      * @param userId
-     * @param unit
+     * @param unitFrom
+     * @param unitTo
+     * @param quizSize
      * @return
      */
-    public List<Quiz> getWords(String userId, Integer unit) {
+    public List<Quiz> getWords(String userId, Integer unitFrom, Integer unitTo, Integer quizSize) {
 
         //전체 단어를 준비.
-        List<Word> totalWords = wordRepository.findByUnit(unit);
+        List<Word> totalWords = wordRepository.findByUnitBetween(unitFrom, unitTo);
         //챕터가 0일 때. 전부 불러온다.
-        if (unit == 0) totalWords = wordRepository.findAll();
+        if (unitFrom == 0 && unitTo == 0) totalWords = wordRepository.findAll();
         Collections.shuffle(totalWords);
 
         // 전체 단어에 대해서 문제를 생성한다.
@@ -109,8 +110,8 @@ public class QuizService {
 
         }
 
-        //전체일때는 30개만 자른다.
-        if(unit == 0) quizs = quizs.subList(0, quizs.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizs.size());
+        //문제 개수가 정해져있으면 해당 개수만큼 자른다.
+        if(quizSize > 0) quizs = quizs.subList(0, quizs.size() > quizSize ? quizSize : quizs.size());
         
         return quizs;
     }
@@ -119,14 +120,16 @@ public class QuizService {
      * 전체 문장을 뽑아서 문제를 만든다. 해당 유닛에 대한!*
      *
      * @param userId
-     * @param unit
+     * @param unitFrom
+     * @param unitTo
+     * @param quizSize
      * @return
      */
-    public List<Quiz> getSentences(String userId, Integer unit) {
+    public List<Quiz> getSentences(String userId, Integer unitFrom, Integer unitTo, Integer quizSize) {
 
-        List<Sentence> totalSentences = sentenceRepository.findByUnit(unit);
+        List<Sentence> totalSentences = sentenceRepository.findByUnitBetween(unitFrom, unitTo);
         //챕터가 0일 때. 전부 불러온다.
-        if (unit == 0) totalSentences = sentenceRepository.findAll();
+        if (unitFrom == 0 && unitTo == 0) totalSentences = sentenceRepository.findAll();
         Collections.shuffle(totalSentences);
 
         // 전체 단어에 대해서 문제를 생성한다.
@@ -154,8 +157,8 @@ public class QuizService {
 
         }
 
-        //전체일때는 30개만 자른다.
-        if(unit == 0) quizs = quizs.subList(0, quizs.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizs.size());
+        //문제 개수가 정해져있으면 해당 개수만큼 자른다.
+        if(quizSize > 0) quizs = quizs.subList(0, quizs.size() > quizSize ? quizSize : quizs.size());
 
         return quizs;
     }
@@ -164,12 +167,14 @@ public class QuizService {
      * 단어와 문장 전부 받아온다.*
      *
      * @param userId
-     * @param unit
+     * @param unitFrom
+     * @param unitTo
+     * @param quizSize
      * @return
      */
-    public List<Quiz> getAll(String userId, Integer unit) {
-        List<Quiz> quizWords = this.getWords(userId, unit);
-        List<Quiz> quizSentences = this.getSentences(userId, unit);
+    public List<Quiz> getAll(String userId, Integer unitFrom, Integer unitTo, Integer quizSize) {
+        List<Quiz> quizWords = this.getWords(userId, unitFrom, unitTo, quizSize);
+        List<Quiz> quizSentences = this.getSentences(userId, unitFrom, unitTo, quizSize);
 
         List<Quiz> quizAll = new ArrayList<Quiz>();
         quizAll.addAll(quizWords);
@@ -177,8 +182,8 @@ public class QuizService {
 
         Collections.shuffle(quizAll);
 
-        //전체일때는 30개만 자른다.
-        if(unit == 0) quizAll = quizAll.subList(0, quizAll.size() > SUBLIST_LENGTH ? SUBLIST_LENGTH : quizAll.size());
+        //문제 개수가 정해져있으면 해당 개수만큼 자른다.
+        if(quizSize > 0) quizAll = quizAll.subList(0, quizAll.size() > quizSize ? quizSize : quizAll.size());
 
         return quizAll;
     }

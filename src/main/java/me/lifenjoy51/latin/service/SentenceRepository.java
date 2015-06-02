@@ -26,4 +26,6 @@ interface SentenceRepository extends JpaRepository<Sentence, String> {
     List<Sentence> findByUnit(Integer unit);
 
     Sentence findByLatin(String titleSentence);
+
+    List<Sentence> findByUnitBetween(Integer unitFrom, Integer unitTo);
 }

@@ -32,4 +32,6 @@ interface WordRepository extends JpaRepository<Word, String> {
     List<Word> findByTitleWordIn(Collection<String> titleWords);
 
     List<Word> findByUnit(Integer unit);
+
+    List<Word> findByUnitBetween(Integer unitFrom, Integer unitTo);
 }
